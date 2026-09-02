@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# Wrapped Anytime
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Get your Spotify statistics anytime and anywhere, not just at the end of the year.
 
-## Available Scripts
+Shows your top artists and tracks over three time ranges — 1 month, 6 months,
+and lifetime — using the Spotify Web API.
 
-In the project directory, you can run:
+Built with React 18, React Router 6, and Vite.
 
-### `npm start`
+## Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You need a Spotify app of your own. Create one at the
+[Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+In **Edit Settings → Redirect URIs**, add:
 
-### `npm test`
+```
+http://127.0.0.1:3000/callback
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`localhost` aliases and plain `http://` redirect URIs were removed by Spotify on
+27 November 2025. `127.0.0.1` is still accepted for local development; anything
+deployed needs an `https://` URI.
 
-### `npm run build`
+Then copy the example env file and fill in your Client ID:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+cp .env.example .env
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+VITE_SPOTIFY_CLIENT_ID=your-client-id
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/callback
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The Client ID is a public identifier for a PKCE client, not a secret. There is
+no client secret in this flow — if something asks you for one, it is the wrong
+flow.
 
-### `npm run eject`
+## Running it
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+npm run dev
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Then open **<http://127.0.0.1:3000>**.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> Browse to `127.0.0.1`, never `localhost`. They reach the same dev server, but
+> Spotify matches `redirect_uri` as an exact string. Loading the app via
+> `localhost` and then sending a `127.0.0.1` redirect URI fails with
+> `INVALID_CLIENT: Invalid redirect URI`, which does not hint at the real cause.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Script | What it does |
+|---|---|
+| `npm run dev` | Dev server on `127.0.0.1:3000` (strict port) |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm test` | Run the auth unit tests |
 
-## Learn More
+The dev server pins its port deliberately. If Vite silently fell back to 3001,
+the redirect URI would stop matching and Spotify would return an opaque error.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Authentication
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Authorization Code flow with PKCE, entirely in the browser. `src/auth/pkce.js`
+owns the whole flow; `getValidAccessToken()` is the only token accessor the rest
+of the app should use. It refreshes access tokens automatically, with a 60
+second skew window so a request never goes out holding a token that is about to
+expire.
 
-### Code Splitting
+All Spotify calls go through `src/api/spotify.js`, which is the single place
+API errors are handled.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Known trade-off
 
-### Analyzing the Bundle Size
+This keeps a refresh token in `localStorage`. That is the standard shape for a
+browser-only public client and is fine for a personal project, but it is a
+long-lived credential sitting in storage readable by any XSS on the origin.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The real fix is a small backend that holds the refresh token and proxies Spotify
+calls. That changes the deployment story entirely, so it is deliberately not
+done here.
 
-### Making a Progressive Web App
+## Follow-up work
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Collapse the six near-identical page components into one parameterized
+   `<TopItemsPage type timeRange />`. Six files become one, and several past
+   bugs existed only because the same code was copy-pasted six times.
+2. Backend token proxy, per the trade-off above.
+3. A deploy target with an `https://` redirect URI.
+4. `.imageBorderArtists` is defined in both card stylesheets, but both card
+   components reference `imageBorderArtist` (singular), so card artwork has
+   never picked up its intended `object-fit: cover` and rounding. Fixing the
+   typo changes how cards look, so it is left as a deliberate visual decision.
