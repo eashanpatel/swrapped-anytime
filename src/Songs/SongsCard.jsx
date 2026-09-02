@@ -1,57 +1,23 @@
 import './SongsCard.css';
-import { useEffect, useState, useMemo } from 'react';
 
-
+const PLACEHOLDER = '/placeholder-art.svg';
 
 const SongsCard = ({obj, index}) => {
 
-    const [trackInfo, setTrackInfo] = useState([]);
-    const [imageUrl, setImageUrl] = useState("");
-
-    // const fetchCoverArt = async () => {
-    //     const result = await fetch(`https://api.spotify.com/v1/tracks/${obj.id}`, {
-    //         headers: {
-    //             'Authorization': 'Bearer ' + token 
-    //         }
-    //     });
-
-    //     const objArray = await result.json();
-    //     setTrackInfo(objArray);
-    //     console.log("TRACK INFO")
-    //     console.log(trackInfo)  
-    // }
-
-    // useEffect(() => {
-    //     fetchCoverArt();
-    // }, [])
-
-    // useMemo(() => {
-    //   setImageUrl(trackInfo.album.images[1].url);
-    // }, [trackInfo]);
-    
-
-    // useMemo(() => {
-    //   if (trackInfo.length > 1){
-    //     setImageUrl(trackInfo.album.images[1].url);
-    //     console.log(trackInfo.album.images[1].url);
-    //   }
-    // }, [trackInfo])
-
-    // console.log(obj)
-    // console.log(index)
-    // console.log(imgurl)
+    // Spotify does not guarantee two images; fall back rather than throw.
+    const img = obj.album?.images?.[1]?.url ?? obj.album?.images?.[0]?.url ?? PLACEHOLDER;
 
     return (
-      <a class = "cardStyle" href={obj.external_urls.spotify} target="_blank">   
-        <div class="cardTopStyle">
-        <img class="imageBorderArtist" src={obj.album.images[1].url}></img>
+      <a className="cardStyle" href={obj.external_urls?.spotify} target="_blank" rel="noopener noreferrer">
+        <div className="cardTopStyle">
+          <img className="imageBorderArtist" src={img} alt={obj.name} />
         </div>
-        <div class="cardBottomStyle">
-        <p class="cardTextTop"> {index + 1} - {obj.name} </p>
-          <p class="cardText"> {obj.artists[0].name} </p>
-        </div> 
+        <div className="cardBottomStyle">
+          <p className="cardTextTop"> {index + 1} - {obj.name} </p>
+          <p className="cardText"> {obj.artists?.[0]?.name} </p>
+        </div>
       </a>
     )
   }
-  
+
   export default SongsCard;
