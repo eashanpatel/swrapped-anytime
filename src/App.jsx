@@ -1,10 +1,6 @@
 
 import './App.css';
 import { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Route, Routes, Link} from "react-router-dom";
 import ArtistsPageMonth from './Artists/ArtistsPageMonth';
 import ArtistsPageSix from './Artists/ArtistsPageSix';
@@ -106,12 +102,12 @@ function App() {
               <h1 class='headerTextPage2'> Wrapped Anytime </h1>
             </div>
             <div class="headerMiddleThirds">       
-              <Nav.Link className="navbarText" href="/artistsmonth"> Artists - Month</Nav.Link>
-              <Nav.Link className="navbarText" href="/artistssixmonth"> Artists - 6 Month </Nav.Link>
-              <Nav.Link className="navbarText" href="/artistslifetime"> Artists - Lifetime </Nav.Link>  
-              <Nav.Link className="navbarText" href="/songsmonth"> Songs - Month </Nav.Link>
-              <Nav.Link className="navbarText" href="/songssixmonth"> Songs - 6 Month </Nav.Link>
-              <Nav.Link className="navbarText" href="/songslifetime"> Songs - Lifetime </Nav.Link>                                       
+              <Link className="navbarText" to="/artistsmonth"> Artists - Month</Link>
+              <Link className="navbarText" to="/artistssixmonth"> Artists - 6 Month </Link>
+              <Link className="navbarText" to="/artistslifetime"> Artists - Lifetime </Link>
+              <Link className="navbarText" to="/songsmonth"> Songs - Month </Link>
+              <Link className="navbarText" to="/songssixmonth"> Songs - 6 Month </Link>
+              <Link className="navbarText" to="/songslifetime"> Songs - Lifetime </Link>
             </div>
             <div class="headerRightThirds">
               <button class="logoutButton" onClick={() => logout()}> Logout </button>

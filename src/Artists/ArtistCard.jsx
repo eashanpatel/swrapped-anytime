@@ -1,12 +1,5 @@
-import axios from 'axios';
 import './ArtistCard.css';
 import { useEffect, useState, useMemo } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Card from 'react-bootstrap/Card';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import {Route, Routes} from "react-router-dom";
 
 const ArtistCard = ({obj, id}) => {
 
