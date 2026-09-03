@@ -133,8 +133,6 @@ function Landing({ error }) {
   );
 }
 
-/* -------------------------------------------------------------------- shell */
-
 function Shell({ onLogout }) {
   const { type, range } = useCurrentView();
 
@@ -196,7 +194,6 @@ function Shell({ onLogout }) {
   );
 }
 
-/* ---------------------------------------------------------------------- app */
 
 function App() {
 
