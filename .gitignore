@@ -26,3 +26,6 @@ yarn-error.log*
 
 # local skill data, not project source
 .claude/skills/
+
+# generated design-system output
+design-system/
