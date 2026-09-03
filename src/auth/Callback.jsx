@@ -26,11 +26,11 @@ function Callback({ onAuthed, onError }) {
     }, [])
 
     return (
-        <div className="secondPageStyle">
-            <div className="headerView2">
-                <h1 className="headerTextPage2"> Signing you in… </h1>
-            </div>
-        </div>
+        <main className="callback">
+            <div className="spinner" role="status" aria-label="Signing you in" />
+            <h1 className="callback__title">Signing you in…</h1>
+            <p className="callback__body">Swapping your authorization code for a token.</p>
+        </main>
     )
 }
 

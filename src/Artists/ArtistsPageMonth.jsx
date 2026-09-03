@@ -1,36 +1,44 @@
-import './ArtistsPageStyle.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getTopItems } from '../api/spotify';
+import TopItemsGrid from '../ui/TopItemsGrid';
 import ArtistCard from './ArtistCard';
 
 function ArtistsPageMonth(){
 
-    const [artists, setArtists] = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    const load = useCallback(() => {
         let cancelled = false;
+        setLoading(true);
+        setError(null);
         getTopItems('artists', 'short_term')
-            .then(items => { if (!cancelled) setArtists(items); })
+            .then(data => { if (!cancelled) setItems(data); })
             .catch(err => { if (!cancelled) setError(err.message); })
             .finally(() => { if (!cancelled) setLoading(false); });
         return () => { cancelled = true; };
     }, [])
 
+    useEffect(load, [load])
+
     return(
-        <div className="mainViewArtists">
-            <div className="headerViewArtists">
-                <h1 className="headerTextArtists"> Your Top Artists - 1 Month </h1>
-            </div>
-            <div className="bodyViewArtists">
-                {loading && <p className="text"> Loading your top artists… </p>}
-                {error && <p className="text"> {error} </p>}
-                {!loading && !error && artists.length === 0 &&
-                    <p className="text"> Spotify has no listening history for this period yet. </p>}
-                {artists.map((artist, index) =>
-                    <ArtistCard key={artist.id} obj={artist} id={index} />)}
-            </div>
+        <div className="page">
+            <header className="page__head">
+                <h1 className="page__title">Top Artists</h1>
+                <p className="page__subtitle">Who you had on repeat over the last four weeks.</p>
+            </header>
+
+            <TopItemsGrid
+                loading={loading}
+                error={error}
+                isEmpty={items.length === 0}
+                emptyLabel="Spotify has not logged enough listening in the last four weeks yet. Give it a few more sessions."
+                onRetry={load}
+            >
+                {items.map((item, index) =>
+                    <ArtistCard key={item.id} obj={item} id={index} />)}
+            </TopItemsGrid>
         </div>
     )
 }

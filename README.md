@@ -82,14 +82,33 @@ The real fix is a small backend that holds the refresh token and proxies Spotify
 calls. That changes the deployment story entirely, so it is deliberately not
 done here.
 
+## Design
+
+Dark, single-theme by intent — a listening-stats app is a low-light surface, so
+there is no light variant.
+
+Tokens live in `src/styles/tokens.css`: colour, type scale, spacing, radii,
+elevation, and motion, all as CSS custom properties. Components reference the
+tokens, never raw hex. The generated design system this was derived from is in
+`design-system/wrapped-anytime/MASTER.md`.
+
+- `src/styles/tokens.css` — tokens, reset, and the global reduced-motion rule
+- `src/App.css` — landing page and the authenticated shell
+- `src/styles/page.css` — the shared grid, card, skeleton, and state styles
+- `src/ui/icons.jsx` — hand-authored SVG set, 24px box, 2px stroke
+
+Type is Righteous for headings and Poppins for body, loaded from Google Fonts
+with `display=swap`.
+
+The six destinations are one grid — {artists, songs} × {month, six, lifetime} —
+so the nav is two segmented controls rather than six flat links. Changing one
+axis holds the other steady. All six URLs still work as direct links.
+
 ## Follow-up work
 
 1. Collapse the six near-identical page components into one parameterized
-   `<TopItemsPage type timeRange />`. Six files become one, and several past
-   bugs existed only because the same code was copy-pasted six times.
+   `<TopItemsPage type timeRange />`. They already share `<TopItemsGrid>` for
+   the loading, error, and empty states; what remains duplicated is the fetch
+   call and the page copy.
 2. Backend token proxy, per the trade-off above.
 3. A deploy target with an `https://` redirect URI.
-4. `.imageBorderArtists` is defined in both card stylesheets, but both card
-   components reference `imageBorderArtist` (singular), so card artwork has
-   never picked up its intended `object-fit: cover` and rounding. Fixing the
-   typo changes how cards look, so it is left as a deliberate visual decision.

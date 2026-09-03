@@ -1,36 +1,44 @@
-import './SongsPageStyle.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getTopItems } from '../api/spotify';
+import TopItemsGrid from '../ui/TopItemsGrid';
 import SongsCard from './SongsCard';
 
 function SongsPageSix(){
 
-    const [songs, setSongs] = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    const load = useCallback(() => {
         let cancelled = false;
+        setLoading(true);
+        setError(null);
         getTopItems('tracks', 'medium_term')
-            .then(items => { if (!cancelled) setSongs(items); })
+            .then(data => { if (!cancelled) setItems(data); })
             .catch(err => { if (!cancelled) setError(err.message); })
             .finally(() => { if (!cancelled) setLoading(false); });
         return () => { cancelled = true; };
     }, [])
 
+    useEffect(load, [load])
+
     return(
-        <div className="mainViewSongs">
-            <div className="headerViewSongs">
-                <h1 className="headerTextSongs"> Your Top Songs - 6 Months </h1>
-            </div>
-            <div className="bodyViewSongs">
-                {loading && <p className="text"> Loading your top songs… </p>}
-                {error && <p className="text"> {error} </p>}
-                {!loading && !error && songs.length === 0 &&
-                    <p className="text"> Spotify has no listening history for this period yet. </p>}
-                {songs.map((song, index) =>
-                    <SongsCard key={song.id} obj={song} index={index} />)}
-            </div>
+        <div className="page">
+            <header className="page__head">
+                <h1 className="page__title">Top Songs</h1>
+                <p className="page__subtitle">Your most-played tracks across roughly the last six months.</p>
+            </header>
+
+            <TopItemsGrid
+                loading={loading}
+                error={error}
+                isEmpty={items.length === 0}
+                emptyLabel="There is not enough listening history in this window yet."
+                onRetry={load}
+            >
+                {items.map((item, index) =>
+                    <SongsCard key={item.id} obj={item} index={index} />)}
+            </TopItemsGrid>
         </div>
     )
 }
