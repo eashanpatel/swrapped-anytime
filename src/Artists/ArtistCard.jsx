@@ -4,7 +4,6 @@ const ArtistCard = ({obj, id}) => {
 
     // Spotify does not guarantee two images; fall back rather than throw.
     const img = obj.images?.[1]?.url ?? obj.images?.[0]?.url ?? PLACEHOLDER;
-    const genre = obj.genres?.[0];
 
     return (
       <a
@@ -21,7 +20,6 @@ const ArtistCard = ({obj, id}) => {
         </div>
         <div className="card__body">
           <span className="card__name">{obj.name}</span>
-          {genre && <span className="card__meta">{genre}</span>}
         </div>
       </a>
     )

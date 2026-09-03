@@ -44,11 +44,6 @@ function Landing({ error }) {
 
         <section className="hero">
           <div>
-            <p className="hero__eyebrow">
-              <span className="hero__dot" aria-hidden="true" />
-              Powered by the Spotify API
-            </p>
-
             <h1 className="hero__title">Wrapped <em>Anytime</em></h1>
 
             <p className="hero__lede">
@@ -62,11 +57,6 @@ function Landing({ error }) {
                 Log in with Spotify
               </button>
             </div>
-
-            <p className="hero__note">
-              Read-only access to your listening history. Nothing is written to
-              your account, and nothing leaves your browser.
-            </p>
 
             {error && (
               <p className="alert" role="alert">
@@ -119,7 +109,7 @@ function Landing({ error }) {
           <p className="about__body">
             Wrapped Anytime uses Spotify&apos;s Web API to retrieve your listening
             data and format it into the lists you see here. Built with React and
-            Vite. Proudly made by a college student.
+            Vite.
           </p>
         </section>
 

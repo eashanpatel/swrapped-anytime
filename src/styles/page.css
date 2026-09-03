@@ -78,11 +78,19 @@
 
 .card__art {
   position: relative;
+  /* flex: none stops the grid's equal-height stretch from being absorbed
+     here, which is what made the art taller in cards with shorter bodies. */
+  flex: none;
   aspect-ratio: 1 / 1;
   background-color: var(--color-muted);
 }
 
+/* Absolute, so the image's intrinsic height cannot drive the box and beat
+   aspect-ratio. Without this a portrait photo makes one card's art 3x the
+   height of its neighbour's. */
 .card__art img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
