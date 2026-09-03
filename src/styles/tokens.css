@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Wrapped Anytime — design tokens
+   Style: Dark Mode (OLED). Single-theme by intent; a music-stats app is a
+   low-light, content-forward surface, so there is no light variant.
+   ========================================================================== */
+
+:root {
+  /* --- colour ---------------------------------------------------------- */
+  --color-primary:          #1E1B4B;
+  --color-on-primary:       #FFFFFF;
+  --color-secondary:        #4338CA;
+  --color-on-secondary:     #FFFFFF;
+
+  --color-accent:           #22C55E;
+  --color-accent-hover:     #16A34A;
+  --color-on-accent:        #0F172A;
+
+  --color-background:       #0F0F23;
+  --color-foreground:       #F8FAFC;
+
+  --color-card:             #1B1B30;
+  --color-card-hover:       #23233D;
+  --color-card-foreground:  #F8FAFC;
+
+  --color-muted:            #27273B;
+  --color-muted-foreground: #94A3B8;
+
+  --color-border:           #312E81;
+  --color-border-subtle:    #23233D;
+
+  --color-destructive:      #EF4444;
+  --color-ring:             #FFFFFF;
+
+  /* --- type ------------------------------------------------------------ */
+  --font-heading: 'Righteous', 'Trebuchet MS', system-ui, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --text-xs:   0.75rem;   /* 12 */
+  --text-sm:   0.875rem;  /* 14 */
+  --text-base: 1rem;      /* 16 */
+  --text-lg:   1.125rem;  /* 18 */
+  --text-xl:   1.5rem;    /* 24 */
+  --text-2xl:  2rem;      /* 32 */
+  --text-3xl:  2.75rem;   /* 44 */
+  --text-4xl:  clamp(2.75rem, 8vw, 5rem);
+
+  --leading-tight: 1.15;
+  --leading-body:  1.6;
+
+  /* --- space (density 6 / standard) ------------------------------------ */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* --- shape ----------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* --- elevation ------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --glow-accent: 0 0 24px rgba(34, 197, 94, 0.35);
+
+  /* --- motion ---------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+
+  /* --- layout ---------------------------------------------------------- */
+  --container: 1200px;
+  --header-h: 68px;
+
+  color-scheme: dark;
+}
+
+/* --- reset ------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+
+a { color: inherit; text-decoration: none; }
+
+/* One visible focus treatment for every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- motion preference -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
