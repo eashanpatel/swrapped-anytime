@@ -39,6 +39,14 @@ export function clearTokens() {
 }
 
 export async function beginLogin() {
+  if (!CLIENT_ID || !REDIRECT_URI) {
+    throw new Error(
+      'Spotify is not configured for this build. VITE_SPOTIFY_CLIENT_ID and ' +
+      'VITE_SPOTIFY_REDIRECT_URI must be set in the host environment before ' +
+      'the build runs, then redeployed.'
+    );
+  }
+
   const verifier = randomString(64);
   const state = randomString(16);
   sessionStorage.setItem('pkce_verifier', verifier);

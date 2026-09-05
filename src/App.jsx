@@ -30,7 +30,11 @@ function useCurrentView() {
   return { type: 'artists', range: 'month' };
 }
 
-function Landing({ error }) {
+function Landing({ error, onError }) {
+  const startLogin = () => {
+    beginLogin().catch(err => onError(err.message));
+  };
+
   return (
     <main className="landing">
       <div className="landing__inner">
@@ -45,7 +49,7 @@ function Landing({ error }) {
             </p>
 
             <div className="hero__actions">
-              <button type="button" className="btn btn--primary" onClick={beginLogin}>
+              <button type="button" className="btn btn--primary" onClick={startLogin}>
                 <AudioLines className="btn__icon" />
                 Log in with Spotify
               </button>
@@ -220,7 +224,7 @@ function App() {
           <Route path="*" element={<Navigate to="/artistsmonth" replace />} />
         </Route>
       ) : (
-        <Route path="*" element={<Landing error={authError} />} />
+        <Route path="*" element={<Landing error={authError} onError={setAuthError} />} />
       )}
     </Routes>
   );
