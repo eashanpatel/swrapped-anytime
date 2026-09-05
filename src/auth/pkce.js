@@ -1,7 +1,11 @@
 const AUTH_ENDPOINT  = 'https://accounts.spotify.com/authorize';
 const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
-const CLIENT_ID    = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+const CLIENT_ID =
+  import.meta.env.VITE_SPOTIFY_CLIENT_ID || '376c9d16034d4f9b9f11892d4b3df6e6';
+
+const REDIRECT_URI =
+  import.meta.env.VITE_SPOTIFY_REDIRECT_URI ||
+  (typeof window === 'undefined' ? '' : `${window.location.origin}/callback`);
 const SCOPES = 'user-top-read user-read-recently-played';
 const STORAGE_KEY = 'spotify_tokens';
 
