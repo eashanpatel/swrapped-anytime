@@ -13,11 +13,6 @@ import SongsPageSix from './Songs/SongsPageSix';
 import SongsPageLifetime from './Songs/SongsPageLifetime';
 import SongsPageMonth from './Songs/SongsPageMonth';
 
-/*
- * The six destinations are one grid: {artists, songs} x {month, six, lifetime}.
- * Modelling it that way lets the nav be two small controls instead of six flat
- * links, and switching one axis holds the other steady.
- */
 const ROUTES = {
   artists: { month: '/artistsmonth', six: '/artistssixmonth', lifetime: '/artistslifetime' },
   songs:   { month: '/songsmonth',   six: '/songssixmonth',   lifetime: '/songslifetime' },
@@ -34,8 +29,6 @@ function useCurrentView() {
   }
   return { type: 'artists', range: 'month' };
 }
-
-/* ------------------------------------------------------------------ landing */
 
 function Landing({ error }) {
   return (
@@ -193,7 +186,6 @@ function Shell({ onLogout }) {
     </div>
   );
 }
-
 
 function App() {
 

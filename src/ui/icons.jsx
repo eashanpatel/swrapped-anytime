@@ -1,11 +1,3 @@
-/*
- * Hand-authored icon set. One geometry system throughout: 24x24 viewBox,
- * 2px stroke, round caps and joins, no fills.
- *
- * Decorative by default (aria-hidden) because every icon here sits beside a
- * visible text label. Pass a `title` to make one meaningful on its own.
- */
-
 const base = {
   width: '1em',
   height: '1em',
@@ -32,7 +24,6 @@ function Svg({ title, children, ...rest }) {
   );
 }
 
-/** Brand mark — an equaliser at rest. */
 export const AudioLines = (props) => (
   <Svg {...props}>
     <path d="M2 10v4" />

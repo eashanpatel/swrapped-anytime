@@ -14,5 +14,5 @@ export async function getTopItems(type, timeRange, limit = 20) {
   if (!res.ok) throw new Error(`Spotify API error ${res.status}`);
 
   const data = await res.json();
-  return Array.isArray(data.items) ? data.items : [];   // fixes bug #1's crash path
+  return Array.isArray(data.items) ? data.items : [];
 }

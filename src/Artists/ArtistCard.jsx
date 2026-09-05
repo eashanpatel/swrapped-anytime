@@ -2,7 +2,6 @@ const PLACEHOLDER = '/placeholder-art.svg';
 
 const ArtistCard = ({obj, id}) => {
 
-    // Spotify does not guarantee two images; fall back rather than throw.
     const img = obj.images?.[1]?.url ?? obj.images?.[0]?.url ?? PLACEHOLDER;
 
     return (
@@ -14,7 +13,6 @@ const ArtistCard = ({obj, id}) => {
         rel="noopener noreferrer"
       >
         <div className="card__art">
-          {/* Decorative: the artist name is right below as real text. */}
           <img src={img} alt="" loading="lazy" />
           <span className="card__rank">{id + 1}</span>
         </div>

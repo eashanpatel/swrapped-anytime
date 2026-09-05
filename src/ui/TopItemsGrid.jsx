@@ -3,7 +3,6 @@ import { AlertTriangle, Disc } from './icons';
 
 const SKELETON_COUNT = 12;
 
-/* Same box as a real card, so the swap to data shifts nothing. */
 function SkeletonCard() {
   return (
     <div className="skeleton">
@@ -16,11 +15,6 @@ function SkeletonCard() {
   );
 }
 
-/**
- * Renders exactly one of: loading, error, empty, or the cards passed as
- * children. Every one of the six pages goes through here, so the four states
- * can never drift apart between them.
- */
 function TopItemsGrid({ loading, error, isEmpty, emptyLabel, onRetry, children }) {
   return (
     <div className="grid" aria-busy={loading || undefined}>

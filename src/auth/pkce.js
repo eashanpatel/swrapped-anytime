@@ -20,8 +20,6 @@ export async function challengeFrom(verifier) {
   return base64url(digest);
 }
 
-// --- token storage -------------------------------------------------
-
 export function getStoredTokens() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
   catch { return null; }
@@ -31,7 +29,6 @@ function saveTokens({ access_token, refresh_token, expires_in }) {
   const existing = getStoredTokens();
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     access_token,
-    // Spotify issues a NEW refresh token on most refreshes; if it omits one, keep the old.
     refresh_token: refresh_token ?? existing?.refresh_token,
     expires_at: Date.now() + expires_in * 1000,
   }));
@@ -40,8 +37,6 @@ function saveTokens({ access_token, refresh_token, expires_in }) {
 export function clearTokens() {
   localStorage.removeItem(STORAGE_KEY);
 }
-
-// --- flow ----------------------------------------------------------
 
 export async function beginLogin() {
   const verifier = randomString(64);
@@ -92,7 +87,7 @@ export async function completeLogin() {
   saveTokens(await res.json());
   sessionStorage.removeItem('pkce_verifier');
   sessionStorage.removeItem('auth_state');
-  window.history.replaceState({}, '', '/');   // strip ?code= from the URL
+  window.history.replaceState({}, '', '/');
   return getStoredTokens();
 }
 
@@ -111,7 +106,6 @@ async function refreshTokens(refresh_token) {
   return getStoredTokens();
 }
 
-/** The only token accessor the rest of the app should use. */
 export async function getValidAccessToken() {
   const tokens = getStoredTokens();
   if (!tokens?.access_token) return null;

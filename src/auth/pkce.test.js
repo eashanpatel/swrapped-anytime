@@ -3,7 +3,6 @@ import { challengeFrom, getValidAccessToken, getStoredTokens } from './pkce';
 
 const STORAGE_KEY = 'spotify_tokens';
 
-// Minimal localStorage stand-in; the node test environment has no DOM.
 function installStorage() {
   const map = new Map();
   globalThis.localStorage = {
@@ -15,7 +14,6 @@ function installStorage() {
 }
 
 describe('challengeFrom', () => {
-  // RFC 7636 Appendix B test vector.
   it('derives the published S256 challenge for the published verifier', async () => {
     const verifier = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
     await expect(challengeFrom(verifier))
@@ -60,7 +58,7 @@ describe('getValidAccessToken', () => {
     seed({
       access_token: 'stale',
       refresh_token: 'r1',
-      expires_at: Date.now() + 30_000,   // unexpired, but inside the skew
+      expires_at: Date.now() + 30_000,
     });
     vi.spyOn(globalThis, 'fetch').mockResolvedValue({
       ok: true,

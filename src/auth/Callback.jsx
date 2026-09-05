@@ -8,8 +8,6 @@ function Callback({ onAuthed, onError }) {
     const started = useRef(false);
 
     useEffect(() => {
-        // An authorization code is single-use, and StrictMode invokes effects
-        // twice in dev — without this guard the second exchange always fails.
         if (started.current) return;
         started.current = true;
 

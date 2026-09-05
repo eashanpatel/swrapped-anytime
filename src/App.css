@@ -1,9 +1,3 @@
-/* ==========================================================================
-   Landing page + authenticated shell
-   ========================================================================== */
-
-/* --- shared primitives --------------------------------------------------- */
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -45,13 +39,9 @@
 
 .btn__icon { width: 20px; height: 20px; flex: none; }
 
-/* ==========================================================================
-   Landing
-   ========================================================================== */
-
 .landing {
   min-height: 100dvh;
-  /* Accent bloom behind the hero, fading into flat background. */
+
   background:
     radial-gradient(60rem 40rem at 50% -10%, rgba(67, 56, 202, 0.35), transparent 70%),
     radial-gradient(32rem 24rem at 82% 8%, rgba(34, 197, 94, 0.14), transparent 70%),
@@ -63,8 +53,6 @@
   margin: 0 auto;
   padding: var(--space-16) var(--space-6);
 }
-
-/* --- hero ---------------------------------------------------------------- */
 
 .hero {
   display: grid;
@@ -104,8 +92,6 @@
   margin-top: var(--space-8);
 }
 
-/* --- album collage ------------------------------------------------------- */
-
 .collage {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -121,7 +107,6 @@
 
 .collage__item img { aspect-ratio: 1 / 1; object-fit: cover; width: 100%; }
 
-/* Gentle fan so the trio reads as one object, not three loose tiles. */
 .collage__item:nth-child(1) { transform: rotate(-4deg) translateY(10px); }
 .collage__item:nth-child(2) { transform: translateY(-8px) scale(1.04); z-index: 1; }
 .collage__item:nth-child(3) { transform: rotate(4deg) translateY(10px); }
@@ -131,8 +116,6 @@
 @media (prefers-reduced-motion: reduce) {
   .collage__item { transform: none !important; }
 }
-
-/* --- feature cards ------------------------------------------------------- */
 
 .features {
   display: grid;
@@ -172,8 +155,6 @@
   color: var(--color-muted-foreground);
   font-size: var(--text-sm);
 }
-
-/* --- about + footer ------------------------------------------------------ */
 
 .about {
   padding: var(--space-12) 0;
@@ -221,8 +202,6 @@
 .footer__link svg,
 .footer__link img { width: 18px; height: 18px; }
 
-/* --- auth error ---------------------------------------------------------- */
-
 .alert {
   display: flex;
   align-items: flex-start;
@@ -237,10 +216,6 @@
 }
 
 .alert svg { width: 20px; height: 20px; flex: none; color: var(--color-destructive); }
-
-/* ==========================================================================
-   Authenticated shell
-   ========================================================================== */
 
 .shell { min-height: 100dvh; }
 
@@ -274,7 +249,6 @@
 
 .appbar__brand svg { width: 22px; height: 22px; color: var(--color-accent); }
 
-/* Nav sits on its own row so six destinations never crush the brand. */
 .navbar {
   border-bottom: 1px solid var(--color-border-subtle);
   background-color: var(--color-background);
@@ -289,8 +263,6 @@
   align-items: center;
   gap: var(--space-3);
 }
-
-/* --- segmented control --------------------------------------------------- */
 
 .seg {
   display: inline-flex;
@@ -335,8 +307,6 @@
   letter-spacing: 0.06em;
 }
 
-/* --- callback ------------------------------------------------------------ */
-
 .callback {
   min-height: 100dvh;
   display: grid;
@@ -372,13 +342,10 @@
   .spinner { animation-duration: 2s; }
 }
 
-/* --- small screens ------------------------------------------------------- */
-
 @media (max-width: 640px) {
   .landing__inner { padding: var(--space-12) var(--space-4); }
   .appbar__inner, .navbar__inner { padding-left: var(--space-4); padding-right: var(--space-4); }
 
-  /* Let the two controls scroll rather than wrap into a cramped stack. */
   .navbar__inner {
     flex-wrap: nowrap;
     overflow-x: auto;
